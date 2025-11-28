@@ -1,0 +1,15 @@
+@rootUrl  = http://localhost:5900
+
+POST {{rootUrl}}/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "loginId": "testgravity@yopmail.com",
+    "password": "Test@1234"
+}
+
+###
+
+GET {{rootUrl}}/users HTTP/1.1
+
+###
