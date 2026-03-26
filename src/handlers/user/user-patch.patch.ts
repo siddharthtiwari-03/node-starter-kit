@@ -1,11 +1,11 @@
-import { Request, Response } from "express";
-import { User } from "../../models/user/user.class";
-import { prettyError } from "../../services/helper.service";
+import type { Request, Response } from "express";
+import { User } from "../../models/user/user.class.js";
+import { prettyError } from "../../services/helper.service.js";
 
 export const patchUser = async (req: Request, res: Response) => {
     console.info(`patch user invoked`)
 
-    const { userId } = req.params
+    const { userId } = req.params as { userId: string | number }
 
     const data = req.body
 

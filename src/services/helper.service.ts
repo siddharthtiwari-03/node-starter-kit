@@ -1,5 +1,5 @@
-import { NextFunction, Request, Response } from "express"
-import { envs } from "./environment.service"
+import { type NextFunction, type Request, type Response } from "express"
+import { envs } from "./environment.service.js"
 
 export const prettyError = (e: any) => ({ success: false, error: e.error.sqlMessage || e.error.message || e.error || e })
 
@@ -54,7 +54,7 @@ export const applySort = (sort: "latest" | "oldest" | "az" | "za" | any, columnN
     }
 }
 
-export const applySearch = (search: string | any, columns: string[] = []) => {
+export const applySearch = (search: string | any, columns: any[] = []) => {
     if (!search) return {}
     const or = []
     for (let i = 0; i < columns.length; i++) {

@@ -1,7 +1,7 @@
-import { Request, Response } from "express"
-import { envs } from "../../services/environment.service"
-import { SuperAdmin } from "../../models/super-admin/super-admin.class"
-import { prettyError } from "../../services/helper.service"
+import type { Request, Response } from "express"
+import { envs } from "../../services/environment.service.js"
+import { SuperAdmin } from "../../models/super-admin/super-admin.class.js"
+import { prettyError } from "../../services/helper.service.js"
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 

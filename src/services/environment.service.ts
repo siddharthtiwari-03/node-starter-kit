@@ -4,6 +4,8 @@ export const envs = {
 
     systemLogs: process.env.SYSTEM_LOGS || 'false',
 
+    use_cluster_module: process.env.USER_CLUSTER_MODULE || 'false',
+
     db: {
         host: process.env.DB_HOST || '',
         name: process.env.DB_NAME || '',
@@ -35,6 +37,15 @@ export const envs = {
             secret: process.env.JWT_ACCESS_SECRET || '',
             expireIn: process.env.JWT_ACCESS_EXPIRE_IN || '15m'
         },
+    },
+
+    redis: {
+        cacheName: {
+            username: process.env.REDIS_CACHE_USERNAME || '',
+            password: process.env.REDIS_CACHE_PASSWORD || '',
+            host: process.env.REDIS_CACHE_HOST || '',
+            port: process.env.REDIS_CACHE_PORT || '',
+        }
     },
 
 } as const

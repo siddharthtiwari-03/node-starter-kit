@@ -1,21 +1,21 @@
 import { Router } from "express"
-import { userLogin } from "../handlers/user/user-login.post"
-import { getUserList } from "../handlers/user/user-list.get"
-import { validateUser } from "../validators/user.validator"
-import { matchParamRegex } from "../services/helper.service"
-import { updateUser } from "../handlers/user/user-update.put"
+import { userLogin } from "../handlers/user/user-login.post.js"
+import { getUserList } from "../handlers/user/user-list.get.js"
+import { validateUser } from "../validators/user.validator.js"
+import { matchParamRegex } from "../services/helper.service.js"
+import { updateUser } from "../handlers/user/user-update.put.js"
 
 // self routes: Signup + Login + Forgot password + Refresh access token
-const privateRoutes = Router({ mergeParams: true })
+const privateRoutes: Router = Router({ mergeParams: true })
 
 // Sharable view only routes for public access: Get list + Get info
-const protectedRoutes = Router({ mergeParams: true })
+const protectedRoutes: Router = Router({ mergeParams: true })
 
 // Shared editable routes: Update + Patch info + Reset password
-const sharedRoutes = Router({ mergeParams: true })
+const sharedRoutes: Router = Router({ mergeParams: true })
 
 // Parent level access: Create + Delete account
-const reservedRoutes = Router({ mergeParams: true })
+const reservedRoutes: Router = Router({ mergeParams: true })
 
 privateRoutes.post('/login', userLogin)
 

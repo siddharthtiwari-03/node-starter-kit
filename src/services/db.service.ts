@@ -1,5 +1,5 @@
 import { createPool } from "mysql2/promise";
-import { envs } from "./environment.service";
+import { envs } from "./environment.service.js";
 
 export const pool = createPool({
     host: envs.db.host,

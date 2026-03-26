@@ -1,0 +1,7 @@
+import type { NextFunction, Request, Response } from "express"
+
+export const auth = (req: Request, res: Response, next: NextFunction) => {
+    console.info('auth invoked')
+
+    return next()
+}

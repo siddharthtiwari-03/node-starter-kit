@@ -1,11 +1,11 @@
-import { Request, Response } from "express";
-import { User } from "../../models/user/user.class";
-import { prettyError } from "../../services/helper.service";
+import type { Request, Response } from "express";
+import { User } from "../../models/user/user.class.js";
+import { prettyError } from "../../services/helper.service.js";
 
 export const getUserInfo = async (req: Request, res: Response) => {
     console.info(`Get user info invoked`)
 
-    const { userId } = req.params
+    const { userId } = req.params as { userId: string }
 
     const where = { userId }
 

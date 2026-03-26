@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
-import { User } from "../../models/user/user.class";
-import { applyFilters, applyPagination, applyRange, applySearch, applySort, prettyError } from "../../services/helper.service";
+import type { Request, Response } from "express";
+import { User } from "../../models/user/user.class.js";
+import { applyFilters, applyPagination, applyRange, applySearch, applySort, prettyError } from "../../services/helper.service.js";
 
 export const getUserList = async (req: Request, res: Response) => {
     console.info(`Get user list invoked`)

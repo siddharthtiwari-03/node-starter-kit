@@ -1,0 +1,12 @@
+node_modules
+
+build
+bundle
+dist
+
+package-lock.json
+
+# .env
+# .env.dev
+# .env.prod
+# .env.stage

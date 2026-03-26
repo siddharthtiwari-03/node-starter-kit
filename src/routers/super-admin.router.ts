@@ -1,14 +1,14 @@
 import { Router } from "express"
-import { superAdminLogin } from "../handlers/super-admin/super-admin-login.post"
-import { userRouter } from "./user.router"
+import { superAdminLogin } from "../handlers/super-admin/super-admin-login.post.js"
+import { userRouter } from "./user.router.js"
 
-const privateRoutes = Router({ mergeParams: true })
+const privateRoutes: Router = Router({ mergeParams: true })
 
-const protectedRoutes = Router({ mergeParams: true })
+const protectedRoutes: Router = Router({ mergeParams: true })
 
-const sharedRoutes = Router({ mergeParams: true })
+const sharedRoutes: Router = Router({ mergeParams: true })
 
-const reservedRoutes = Router({ mergeParams: true })
+const reservedRoutes: Router = Router({ mergeParams: true })
 
 privateRoutes.post('/login', superAdminLogin)
 privateRoutes.use('/users', userRouter.reservedRoutes, userRouter.sharedRoutes)

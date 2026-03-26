@@ -1,8 +1,8 @@
-import { Request, Response } from "express"
+import type { Request, Response } from "express"
 import bcrypt from 'bcrypt'
 
 export const genHash = async (req: Request, res: Response) => {
-    const { data } = req.params
+    const { data } = req.params as { data: string }
 
     try {
         const hashed = await bcrypt.hash(data, 10)

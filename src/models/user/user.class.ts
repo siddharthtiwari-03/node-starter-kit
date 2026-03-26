@@ -1,6 +1,6 @@
 import { UnSQL } from "unsql";
-import { envs } from "../../services/environment.service";
-import { pool } from "../../services/db.service";
+import { envs } from "../../services/environment.service.js";
+import { pool } from "../../services/db.service.js";
 
 export class User extends UnSQL {
 

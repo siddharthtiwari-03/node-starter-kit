@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from "express"
-import { User } from "../models/user/user.class"
-import { prettyError } from "../services/helper.service"
+import { type NextFunction, type Request, type Response } from "express"
+import { User } from "../models/user/user.class.js"
+import { prettyError } from "../services/helper.service.js"
 
 export const validateUserInline = async (userId: string | number) => {
     return async (req: Request, res: Response, next: NextFunction) => {

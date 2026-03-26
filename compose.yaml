@@ -1,0 +1,36 @@
+services:
+  # ---------------------------------------------
+  # DEV CONTAINER (tsx hot reload)
+  # ---------------------------------------------
+  server-dev:
+    container_name: server_dev_container
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    environment:
+      NODE_ENV: dev
+      PORT: 5900
+      CHOKIDAR_USEPOLLING: "true"   # <— Required on Windows
+      CHOKIDAR_INTERVAL: "200"
+    command: ["npm", "run", "dev"]
+    ports:
+      - "5900:5900"
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+  # ---------------------------------------------
+  # PRODUCTION CONTAINER (obfuscated + bundled JS)
+  # ---------------------------------------------
+  server:
+    container_name: server_container
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production      # runs `dist/server.js` obfuscated
+    environment:
+      NODE_ENV: prod
+      PORT: 5900
+    ports:
+      - "5900:5900"
