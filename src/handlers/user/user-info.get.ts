@@ -3,7 +3,7 @@ import { User } from "../../models/user/user.class.js";
 import { prettyError } from "../../services/helper.service.js";
 
 export const getUserInfo = async (req: Request, res: Response) => {
-    console.info(`Get user info invoked`)
+    console.info(`Get user info invoked!`)
 
     const { userId } = req.params as { userId: string }
 

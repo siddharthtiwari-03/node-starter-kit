@@ -11,14 +11,20 @@ services:
     environment:
       NODE_ENV: dev
       PORT: 5900
-      CHOKIDAR_USEPOLLING: "true"   # <— Required on Windows
-      CHOKIDAR_INTERVAL: "200"
-    command: ["npm", "run", "dev"]
     ports:
       - "5900:5900"
-    volumes:
-      - .:/app
-      - /app/node_modules
+    develop:
+      watch:
+        - action: sync
+          path: ./src
+          target: /app/src
+        - action: sync
+          path: ./tsconfig.json
+          target: /app/tsconfig.json
+        - action: rebuild
+          path: ./package.json
+        - action: rebuild
+          path: ./package-lock.json
 
   # ---------------------------------------------
   # PRODUCTION CONTAINER (obfuscated + bundled JS)

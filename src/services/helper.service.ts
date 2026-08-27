@@ -1,9 +1,11 @@
 import { type NextFunction, type Request, type Response } from "express"
 import { envs } from "./environment.service.js"
 
+type SortOrderKey = keyof typeof envs.sortOrders
+
 export const prettyError = (e: any) => ({ success: false, error: e.error.sqlMessage || e.error.message || e.error || e })
 
-export const matchRegex = (str: String, pattern = /[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[89AB][a-f0-9]{3}-[a-f0-9]{12}/i) => RegExp(pattern).exec(`'${str}'`)
+export const matchRegex = (str: String, pattern = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[89AB][a-f0-9]{3}-[a-f0-9]{12}$/i) => RegExp(pattern).exec(`'${str}'`)
 
 export const matchParamRegex = (params: string[] = [], pattern?: RegExp) => {
     return (req: Request, res: Response, next: NextFunction) => {
@@ -14,12 +16,22 @@ export const matchParamRegex = (params: string[] = [], pattern?: RegExp) => {
                 return res.status(422).json({ success: false, error: `Invalid Request! Unknown variable '${param}' in the request URL params` })
             }
 
-            if (!matchRegex(req.params[param], pattern)) {
+            if (!matchRegex(req.params[param].toString(), pattern)) {
                 if (envs.systemLogs == 'true') console.error('regex not matching, skipping to next route')
                 return next('route')
             }
         }
         if (envs.systemLogs == 'true') console.log('param regex matched, moving to route handler method')
+        next()
+    }
+}
+
+export const registerParamValidator = (pattern: RegExp = envs.uuid_regex_pattern) => {
+    return (req: Request, res: Response, next: NextFunction, value: string, name: string) => {
+        if (!matchRegex(value, pattern)) {
+            if (envs.systemLogs === 'true') console.error(`param '${name}' failed regex validation`)
+            return res.status(422).json({ success: false, error: `Invalid value for '${name}'` })
+        }
         next()
     }
 }
@@ -52,6 +64,36 @@ export const applySort = (sort: "latest" | "oldest" | "az" | "za" | any, columnN
             if (tieBreaker) orderBy[tieBreaker] = 'desc'
             return { orderBy }
     }
+}
+
+export const parseSortParam = (sortParam: string | undefined | null): Record<string, string> => {
+    if (!sortParam) return {}
+
+    const sort: Record<string, string> = {}
+
+    for (const pair of sortParam.split(',')) {
+        const [field, order] = pair.split(':').map(s => s?.trim())
+        if (field && order) sort[field] = order
+    }
+
+    return sort
+}
+
+const isValidSortValue = (val: unknown): val is SortOrderKey => typeof val === 'string' && val in envs.sortOrders
+
+export const prepareSort = (sort: Record<string, unknown> | undefined | null) => {
+    if (!sort || !Object.keys(sort).length) return {}
+
+    const orderBy: Record<string, 'asc' | 'desc'> = {}
+
+    for (const key of Object.keys(sort)) {
+        const val = sort[key]
+        if (isValidSortValue(val)) {
+            orderBy[key] = envs.sortOrders[val]
+        }
+    }
+
+    return Object.keys(orderBy).length ? { orderBy } : {}
 }
 
 export const applySearch = (search: string | any, columns: any[] = []) => {

@@ -1,11 +1,11 @@
 import type { Request, Response } from "express";
 import { User } from "../../models/user/user.class.js";
-import { applyFilters, applyPagination, applyRange, applySearch, applySort, prettyError } from "../../services/helper.service.js";
+import { applyFilters, applyPagination, applyRange, applySearch, applySort, parseSortParam, prepareSort, prettyError } from "../../services/helper.service.js";
 
 export const getUserList = async (req: Request, res: Response) => {
     console.info(`Get user list invoked`)
 
-    const { page = '0', pageSize, search, sort = 'latest', range, ...filters } = req.query
+    const { page = '0', pageSize, search, sort = 'createdOn:latest', range, ...filters } = req.query
 
     const found = await User.find({
         where: {
@@ -14,7 +14,7 @@ export const getUserList = async (req: Request, res: Response) => {
             ...applyFilters(filters)
         },
         ...applyPagination(page, pageSize),
-        ...applySort(sort, 'firstName', 'userId')
+        ...prepareSort(parseSortParam(sort as string))
     })
 
     if (!found.success) {
