@@ -1,11 +1,12 @@
 import { Router } from "express"
+
 import { userLogin } from "../handlers/user/user-login.post.js"
 import { getUserList } from "../handlers/user/user-list.get.js"
 import { validateUser } from "../validators/user.validator.js"
-import { matchParamRegex, registerParamValidator } from "../services/helper.service.js"
 import { updateUser } from "../handlers/user/user-update.put.js"
 import { getUserInfo } from "../handlers/user/user-info.get.js"
-import { envs } from "../services/environment.service.js"
+
+import { registerParamValidator } from "../services/helper.service.js"
 
 // self routes: Signup + Login + Forgot password + Refresh access token
 const privateRoutes: Router = Router({ mergeParams: true })

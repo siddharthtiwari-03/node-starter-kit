@@ -2,7 +2,7 @@ import { type NextFunction, type Request, type Response } from "express"
 import { prettyError } from "../services/helper.service.js"
 import { SuperAdmin } from "../models/super-admin/super-admin.class.js"
 
-export const validateSuperAdminInline = async (superId: string | number) => {
+export const validateSuperAdminInline = async (superId: string) => {
     return async (req: Request, res: Response, next: NextFunction) => {
         const response = await validateSuperAdmin(superId)
 
@@ -12,10 +12,10 @@ export const validateSuperAdminInline = async (superId: string | number) => {
     }
 }
 
-export const validateSuperAdmin = async (superId: string | number) => {
+export const validateSuperAdmin = async (superId: string) => {
     console.info('validate super admin invoked')
 
-    const found = await SuperAdmin.find({ where: { superId } })
+    const found = await SuperAdmin.find({ where: { superId: `#${superId}` } })
 
     if (!found.success) {
         console.error('error while validating super admin', found)
